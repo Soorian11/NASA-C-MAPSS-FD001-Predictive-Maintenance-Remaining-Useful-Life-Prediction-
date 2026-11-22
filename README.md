@@ -19,7 +19,7 @@ The end-to-end task is a supervised regression problem:
 7. Predict RUL at the last recorded cycle of each test engine.
 8. Report errors and save predictions, plots, and a reusable model.
 
-The two entry points have different levels of validation rigor. The Colab notebook uses multiple simulated censoring points per held-out engine and grouped cross-validation for tuning. The local `src/train.py` script currently scores only the final row of each held-out run-to-failure training engine. Those rows all have RUL 0, so its validation comparison does not represent the censored test problem and should not be used as a reliable model-selection estimate. This limitation is described here so that the local script's output is interpreted correctly.
+The two entry points have different levels of validation rigor. The Colab notebook uses multiple simulated censoring points per held-out engine and grouped cross-validation for tuning. The local `src/train.py` script currently scores only the final row of each held-out run-to-failure training engine. Those rows all have RUL 0, so its validation comparison does not represent the censored test problem and should not be used as a reliable model-selection estimate.
 
 ## 3. Dataset
 
@@ -49,7 +49,7 @@ The local script caps row-level training targets at 125, creates a one-time 80/2
 
 For model selection that better reflects the official test format, use the companion Colab notebook described in Section 7. It selects checkpoints before failure and tunes using engine-grouped folds.
 
-## 7. Google Colab notebook workflow
+## 7.workflow
 
 
 1. **Setup and loading:** set a fixed random seed, download the files, validate schema, missing values, positive cycle numbers, duplicate engine/cycle pairs, and label count.
