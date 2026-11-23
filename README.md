@@ -19,7 +19,6 @@ The end-to-end task is a supervised regression problem:
 7. Predict RUL at the last recorded cycle of each test engine.
 8. Report errors and save predictions, plots, and a reusable model.
 
-The two entry points have different levels of validation rigor. The Colab notebook uses multiple simulated censoring points per held-out engine and grouped cross-validation for tuning. The local `src/train.py` script currently scores only the final row of each held-out run-to-failure training engine. Those rows all have RUL 0, so its validation comparison does not represent the censored test problem and should not be used as a reliable model-selection estimate.
 
 ## 3. Dataset
 
@@ -45,9 +44,8 @@ The supplied files contain 20,631 training rows and 13,096 test rows. Training t
 
 ### Local training methodology
 
-The local script caps row-level training targets at 125, creates a one-time 80/20 engine-grouped split, compares models by MAE, fits the model with the best split MAE on all training rows, then evaluates on the official test set. However, the local validation endpoint is each held-out training engine's last row. Because those trajectories run to failure, the target at every such endpoint is zero. This is a known methodological limitation of this compact Python path. The local validation CSV is generated for transparency, but do not interpret its rankings as comparable evidence for performance on censored test endpoints.
+The code caps row-level training targets at 125, creates a one-time 80/20 engine-grouped split, compares models by MAE, fits the model with the best split MAE on all training rows, then evaluates on the official test set. However, the local validation endpoint is each held-out training engine's last row. Because those trajectories run to failure, the target at every such endpoint is zero. This is a known methodological limitation of this compact Python path. 
 
-For model selection that better reflects the official test format, use the companion Colab notebook described in Section 7. It selects checkpoints before failure and tunes using engine-grouped folds.
 
 ## 7.workflow
 
